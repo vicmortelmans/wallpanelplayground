@@ -1,0 +1,23 @@
+{
+  "name": "wallpanelplayground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "node --inspect index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vicmortelmans/wallpanelplayground.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vicmortelmans/wallpanelplayground/issues"
+  },
+  "homepage": "https://github.com/vicmortelmans/wallpanelplayground#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
