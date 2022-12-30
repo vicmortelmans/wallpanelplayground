@@ -1,9 +1,16 @@
 doctype html
 html
     head
-        title= title 
+        title eierwekker
         link(rel ="stylesheet" type="text/css" href="/css/style.css")
     body
-        h1= message 
-        img(src="images/wereldbol.jpg")
+        div#tijd
+            span#minuten 00
+            span :
+            span#seconden 00
+        div#knoppen
+            a.mybutton#plusje(href="#") +
+            a.myButton#startknop(href="#") start
+            a.mybutton#min(href="#") - 
+        
         script(src="script/script.js")
