@@ -2,8 +2,9 @@ const IDLE= 0
 const CNT= 1
 const ALARM= 2
 let minutes= 0
-let seconds= 28
+let seconds= 5
 let statuss= IDLE
+let audio= new Audio("/audio/alarm.mp3")
 
 function display_minutes_and_seconds(){
     document.getElementById("seconden").innerHTML= String(seconds).padStart(2, '0')
@@ -54,6 +55,7 @@ document.getElementById("startknop").addEventListener("click", ()=>{
         let timer= setInterval(() => {
             if (minutes===0 && seconds===0){
                 clearInterval(timer)
+                audio.play()
                 statuss=IDLE
                 return
             }
