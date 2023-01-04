@@ -5,6 +5,16 @@ let minutes= 0
 let seconds= 5
 let statuss= IDLE
 let audio= new Audio("/audio/alarm.mp3")
+const ws= new WebSocket(`ws://${location.hostname}:3002`)
+
+ws.addEventListener("open", () =>{
+    console.log("We are connected")
+    ws.send("How are you?")
+})
+
+ws.addEventListener('message', function (event){
+    console.log(event.data)
+})
 
 function display_minutes_and_seconds(){
     document.getElementById("seconden").innerHTML= String(seconds).padStart(2, '0')
@@ -41,7 +51,7 @@ document.getElementById("min").addEventListener("click", ()=>{
         seconds = seconds+60
         minutes --
     }
-    if (minutes <= 0){
+    if (minutes < 0){
         seconds = 0
         minutes = 0
         flikkeren()

@@ -1,5 +1,3 @@
-
-
 .myButton {
     background-color:#44c767;
     border-radius:11px;
@@ -22,8 +20,6 @@
     position:relative;
     top:1px;
 }
-
-
 
 .mybutton {
 	background-color:transparent;
@@ -53,14 +49,14 @@ span{
     
 }
 
-div{
-    text-align: center;
-}
-
 div.blinking{
     animation: blink 1s;
     animation-iteration-count: 1;
 }
 @keyframes blink { 50% { color:rgb(255, 0, 0) ; }  }
+
+body{
+    text-align: center;
+}
 
 
