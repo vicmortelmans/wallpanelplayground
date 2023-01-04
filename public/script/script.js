@@ -14,6 +14,8 @@ ws.addEventListener("open", () =>{
 
 ws.addEventListener('message', function (event){
     console.log(event.data)
+
+    
 })
 
 function display_minutes_and_seconds(){
@@ -31,6 +33,7 @@ function flikkeren(){
 display_minutes_and_seconds()
 document.getElementById("plusje").addEventListener("click", ()=>{
     document.getElementById("tijd").classList.remove("blinking")
+    ws.send("+")
     seconds += 30
     if (seconds>=60){
         seconds = seconds-60
@@ -46,6 +49,7 @@ document.getElementById("plusje").addEventListener("click", ()=>{
 
 document.getElementById("min").addEventListener("click", ()=>{
     document.getElementById("tijd").classList.remove("blinking")
+    ws.send("-")
     seconds -= 30
     if (seconds<0){
         seconds = seconds+60
@@ -60,6 +64,7 @@ document.getElementById("min").addEventListener("click", ()=>{
 })
 
 document.getElementById("startknop").addEventListener("click", ()=>{
+    ws.send("start")
     if (statuss!= CNT){
         statuss=CNT
         let timer= setInterval(() => {
