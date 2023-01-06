@@ -21,7 +21,7 @@
     top:1px;
 }
 
-.mybutton {
+.plusMinButton {
 	background-color:transparent;
 	border-radius:11px;
 	border:2px solid #18ab29;
@@ -35,10 +35,10 @@
     text-align: center;
 	text-decoration:none;
 }
-.mybutton:hover {
+.plusMinButton:hover {
 	background-color:transparent;
 }
-.mybutton:active {
+.plusMinButton:active {
 	position:relative;
 	top:1px;
 }
@@ -58,5 +58,7 @@ div.blinking{
 body{
     text-align: center;
 }
-
+ #knoppen{
+    text-align: center;
+ }
 

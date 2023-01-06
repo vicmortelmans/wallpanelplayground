@@ -8,9 +8,9 @@ let clients = []
 const IDLE = 0
 const CNT = 1
 const ALARM = 2
+let statuss = IDLE
 let minutes = 0
 let seconds = 5
-let statuss = IDLE
 
 wss.on("connection", ws => {
     clients.push(ws)
@@ -25,8 +25,12 @@ wss.on("connection", ws => {
             }
             if (minutes >= 15) {
                 seconds = 0
+                ws.send("flikkeren")
             }
-            clients.forEach(client => { client.send(    ) })
+            let time= {}
+            time.minutes = minutes
+            time.seconds = seconds
+            clients.forEach(client => { client.send(JSON.stringify(time)) })
         }
         if (data.toString() === "-") {
             seconds -= 30
@@ -37,10 +41,38 @@ wss.on("connection", ws => {
             if (minutes < 0) {
                 seconds = 0
                 minutes = 0
+                ws.send("flikkeren")
             }
+            let time= {}
+            time.minutes = minutes
+            time.seconds = seconds
+            clients.forEach(client => { client.send(JSON.stringify(time)) })
         }
         console.log("Current minutes are:" + minutes)
         console.log("Current seconds are:" + seconds)
+
+        if (data.toString()=== "start"){
+            if (statuss!= CNT){
+                statuss=CNT
+                let timer= setInterval(() => {
+                    if (minutes===0 && seconds===0){
+                        clearInterval(timer)
+                        clients.forEach(client => { client.send("audio") }) 
+                        statuss=IDLE
+                        return
+                    }
+                    if (seconds===0){
+                        minutes--
+                        seconds= seconds+60
+                    }
+                    seconds --
+                    let time= {}
+                    time.minutes = minutes
+                    time.seconds = seconds
+                    clients.forEach(client => { client.send(JSON.stringify(time)) })
+                }, 1000);
+            }
+        }
     })
     ws.on("close", () => {
         console.log("the client has disconnected")

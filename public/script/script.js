@@ -1,86 +1,58 @@
-const IDLE= 0
-const CNT= 1
-const ALARM= 2
-let minutes= 0
-let seconds= 5
-let statuss= IDLE
-let audio= new Audio("/audio/alarm.mp3")
-const ws= new WebSocket(`ws://${location.hostname}:3002`)
+const IDLE = 0
+const CNT = 1
+const ALARM = 2
+let minutes = 0
+let seconds = 5
+let statuss = IDLE
+let audio = new Audio("/audio/alarm.mp3")
+const ws = new WebSocket(`ws://${location.hostname}:3002`)
 
-ws.addEventListener("open", () =>{
-    console.log("We are connected")
-    ws.send("How are you?")
-})
-
-ws.addEventListener('message', function (event){
-    console.log(event.data)
-
-    
-})
-
-function display_minutes_and_seconds(){
-    document.getElementById("seconden").innerHTML= String(seconds).padStart(2, '0')
-    document.getElementById("minuten").innerHTML= String(minutes).padStart(2, '0')
+function display_minutes_and_seconds() {
+    document.getElementById("seconden").innerHTML = String(seconds).padStart(2, '0')
+    document.getElementById("minuten").innerHTML = String(minutes).padStart(2, '0')
 }
-function flikkeren(){
+function flikkeren() {
     clearTimeout(blinking)
     document.getElementById("tijd").classList.add("blinking")
-    var blinking= setTimeout(() => {
+    var blinking = setTimeout(() => {
         document.getElementById("tijd").classList.remove("blinking")
     }, 1000);
 
 }
+
+ws.addEventListener("open", () => {
+    console.log("We are connected")
+    ws.send("How are you?")
+})
+
+ws.addEventListener('message', function (event) {
+    if (event.data === "flikkeren") {
+        flikkeren()
+    }
+    else if(event.data === "audio"){
+        audio.play()
+    }
+    else {
+        time = JSON.parse(event.data)
+        seconds = time.seconds
+        minutes = time.minutes
+        console.log(event.data)
+        display_minutes_and_seconds()
+    }
+})
+
 display_minutes_and_seconds()
-document.getElementById("plusje").addEventListener("click", ()=>{
+document.getElementById("plusje").addEventListener("click", () => {
     document.getElementById("tijd").classList.remove("blinking")
     ws.send("+")
-    seconds += 30
-    if (seconds>=60){
-        seconds = seconds-60
-        minutes ++
-    }
-    if (minutes >= 15){
-        seconds = 0
-        flikkeren()
-    }
-    display_minutes_and_seconds()
-    
 })
 
-document.getElementById("min").addEventListener("click", ()=>{
+document.getElementById("min").addEventListener("click", () => {
     document.getElementById("tijd").classList.remove("blinking")
     ws.send("-")
-    seconds -= 30
-    if (seconds<0){
-        seconds = seconds+60
-        minutes --
-    }
-    if (minutes < 0){
-        seconds = 0
-        minutes = 0
-        flikkeren()
-    }
-    display_minutes_and_seconds()
 })
 
-document.getElementById("startknop").addEventListener("click", ()=>{
+document.getElementById("startknop").addEventListener("click", () => {
     ws.send("start")
-    if (statuss!= CNT){
-        statuss=CNT
-        let timer= setInterval(() => {
-            if (minutes===0 && seconds===0){
-                clearInterval(timer)
-                audio.play()
-                statuss=IDLE
-                return
-            }
-            if (seconds===0){
-                minutes--
-                seconds= seconds+60
-            }
-            seconds --
-            display_minutes_and_seconds()
-        }, 1000);
-    }
 })
 
