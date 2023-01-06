@@ -9,14 +9,16 @@ const IDLE = 0
 const CNT = 1
 const ALARM = 2
 let statuss = IDLE
-let minutes = 0
-let seconds = 5
+let minutes = 5
+let seconds = 0
 
 wss.on("connection", ws => {
+    let time= {}
+    time.minutes = minutes
+    time.seconds = seconds
+    ws.send(JSON.stringify(time))
     clients.push(ws)
-    console.log("new client connected")
     ws.on("message", data => {
-        console.log(`Client has sent us: ${data}`)
         if (data.toString() === "+") {
             seconds += 30
             if (seconds >= 60) {
@@ -48,9 +50,6 @@ wss.on("connection", ws => {
             time.seconds = seconds
             clients.forEach(client => { client.send(JSON.stringify(time)) })
         }
-        console.log("Current minutes are:" + minutes)
-        console.log("Current seconds are:" + seconds)
-
         if (data.toString()=== "start"){
             if (statuss!= CNT){
                 statuss=CNT
@@ -75,10 +74,7 @@ wss.on("connection", ws => {
         }
     })
     ws.on("close", () => {
-        console.log("the client has disconnected")
-        console.log("original numer of clients:" + clients.length)
         clients = clients.filter(client => ws != client)
-        console.log("new numer of clients:" + clients.length)
     })
     ws.onerror = () => {
         console.log("Some error occurred")
@@ -88,7 +84,6 @@ console.log(`The Websocket server is runnign on port ${ws_port}`)
 app.set("view engine", "pug");
 
 app.get("/", (req, res) => {
-    console.log("hallo")
     res.render("home");
 })
 

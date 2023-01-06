@@ -1,8 +1,8 @@
 const IDLE = 0
 const CNT = 1
 const ALARM = 2
-let minutes = 0
-let seconds = 5
+let minutes = 5
+let seconds = 0
 let statuss = IDLE
 let audio = new Audio("/audio/alarm.mp3")
 const ws = new WebSocket(`ws://${location.hostname}:3002`)
@@ -41,7 +41,6 @@ ws.addEventListener('message', function (event) {
     }
 })
 
-display_minutes_and_seconds()
 document.getElementById("plusje").addEventListener("click", () => {
     document.getElementById("tijd").classList.remove("blinking")
     ws.send("+")

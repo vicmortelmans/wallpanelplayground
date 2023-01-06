@@ -43,12 +43,6 @@
 	top:1px;
 }
 
-span{
-    text-align: center;
-    font-size: 250px;
-    
-}
-
 div.blinking{
     animation: blink 1s;
     animation-iteration-count: 1;
@@ -58,7 +52,29 @@ div.blinking{
 body{
     text-align: center;
 }
- #knoppen{
-    text-align: center;
- }
 
+#tijd{
+    text-align: center;
+    font-size: 25vw;
+    height: 80vh;
+}
+#knoppen{
+    height: 20vh;
+    font-size: 3vw;
+}
+
+a{
+    font-size: 5vw;
+    padding: 0px;
+    border: 0px
+}
+a.plusMinButton{
+    height:40%;
+    width:5%;
+  }
+a.myButton{
+    height:40%;
+    width:20%;
+  }
+
+    
