@@ -4,8 +4,7 @@ const ALARM = 2
 let minutes = 5
 let seconds = 0
 let statuss = IDLE
-let audio = new Audio("/audio/alarm.mp3")
-const ws = new WebSocket(`ws://${location.hostname}:3002`)
+let audio = new Audio("audio/alarm.mp3")
 
 function display_minutes_and_seconds() {
     document.getElementById("seconden").innerHTML = String(seconds).padStart(2, '0')
@@ -19,6 +18,8 @@ function flikkeren() {
     }, 1000);
 
 }
+
+// ws is created in home.pug, to fetch the port from index.js
 
 ws.addEventListener("open", () => {
     console.log("We are connected")

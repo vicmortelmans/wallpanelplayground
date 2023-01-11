@@ -1,7 +1,8 @@
 const express = require("express")
 const app = express()
-const http_port = 3000
-const ws_port = 3002
+const http_port = process.env.CODE_SERVER_PORT_HTTP || 3000
+const ws_port = process.env.CODE_SERVER_PORT_WS || 3002
+const server_mode = process.env.CODE_SERVER_MODE || 'DEBUG'
 const WebSocketServer = require('ws')
 const wss = new WebSocketServer.Server({ port: ws_port })
 let clients = []
@@ -84,7 +85,10 @@ console.log(`The Websocket server is runnign on port ${ws_port}`)
 app.set("view engine", "pug");
 
 app.get("/", (req, res) => {
-    res.render("home");
+    res.render("home", {
+        ws_port_suffix: server_mode === 'DEBUG' ? '/proxy/' : ':',
+        ws_port: ws_port
+    });
 })
 
 app.use(express.static("public"))
